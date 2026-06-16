@@ -1,0 +1,39 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import ProductCard from "@/components/ProductCard.astro";
+import { categories, products } from "@/data/products";
+
+export function getStaticPaths() {
+  return categories.map((category) => ({
+    params: { category: category.toLowerCase() },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+const categoryProducts = products.filter((product) => product.category === category);
+const categoryValues = JSON.stringify({ category });
+---
+
+<BaseLayout
+  title={`${category} UUfinds Spreadsheet Finds | UU Find Hub`}
+  description={`Curated ${category.toLowerCase()} UUfinds Spreadsheet finds, QC-style previews, and shopping shortcuts for Maison Looks.`}
+>
+  <Header />
+  <main
+    class="mx-auto max-w-5xl bg-[#06152f] px-4 py-8 text-white sm:px-6 lg:px-8"
+    data-i18n-title="titleCategory"
+    data-i18n-description="descriptionCategory"
+    data-i18n-category={category}
+  >
+    <a href="/" class="text-sm font-semibold text-white/68 hover:text-white" data-i18n="backToAll">Back to all finds</a>
+    <div class="mt-6 border-b border-white/10 pb-3">
+      <h1 class="text-3xl font-black text-white" data-i18n-auto>{category} UUfinds Spreadsheet Finds</h1>
+      <p class="mt-2 text-sm text-white/68"><span>{categoryProducts.length}</span> <span data-i18n="categoryCountSuffix" data-i18n-values={categoryValues}>UUfinds Spreadsheet finds linked to Maison Looks.</span></p>
+    </div>
+    <div class="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7">
+        {categoryProducts.map((product) => <ProductCard product={product} />)}
+    </div>
+  </main>
+</BaseLayout>

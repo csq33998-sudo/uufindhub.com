@@ -1,0 +1,21 @@
+---
+import GuidesListing from "@/components/GuidesListing.astro";
+import { getGuidesPage, pageCount } from "@/data/guides";
+
+export function getStaticPaths() {
+  return Array.from({ length: pageCount - 1 }).map((_, index) => {
+    const page = index + 2;
+    return {
+      params: { page: String(page) },
+      props: {
+        currentPage: page,
+        guides: getGuidesPage(page),
+      },
+    };
+  });
+}
+
+const { currentPage, guides } = Astro.props;
+---
+
+<GuidesListing currentPage={currentPage} guides={guides} />

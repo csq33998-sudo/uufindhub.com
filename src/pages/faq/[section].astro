@@ -1,0 +1,19 @@
+---
+import FaqPage from "@/components/FaqPage.astro";
+import { quickTopics } from "@/data/faq";
+
+export function getStaticPaths() {
+  return quickTopics.map((topic) => ({
+    params: { section: topic.section },
+    props: { activeSection: topic.section },
+  }));
+}
+
+type Props = {
+  activeSection: string;
+};
+
+const { activeSection } = Astro.props;
+---
+
+<FaqPage activeSection={activeSection} />

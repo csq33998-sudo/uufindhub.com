@@ -1,0 +1,108 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import { pageCount } from "@/data/guides";
+
+type Guide = {
+  title: string;
+  excerpt: string;
+};
+
+type Props = {
+  currentPage: number;
+  guides: Guide[];
+};
+
+const { currentPage, guides } = Astro.props;
+const previousHref =
+  currentPage <= 2 ? "/guides/" : `/guides/page/${currentPage - 1}/`;
+const nextHref =
+  currentPage >= pageCount ? `/guides/page/${pageCount}/` : `/guides/page/${currentPage + 1}/`;
+const titleKey = currentPage === 1 ? "titleGuides" : "titleGuidesPage";
+const pageValue = String(currentPage);
+
+function pageHref(page: number) {
+  return page === 1 ? "/guides/" : `/guides/page/${page}/`;
+}
+---
+
+<BaseLayout
+  title={currentPage === 1 ? "UUfinds Spreadsheet Shopping Guides | UU Find Hub" : `UUfinds Spreadsheet Guides Page ${currentPage} | UU Find Hub`}
+  description="Shopping guides for UUfinds spreadsheet finds, QC photos, link conversion, bags, sneakers, clothing, and agent workflows."
+>
+  <Header />
+  <main
+    class="min-h-screen bg-[#0a0911] text-white"
+    data-i18n-title={titleKey}
+    data-i18n-description="descriptionGuides"
+    data-i18n-page={pageValue}
+  >
+    <div class="min-h-screen bg-[linear-gradient(180deg,#050507_0%,#121126_24%,#31286f_63%,#6d5be4_100%)]">
+      <section class="mx-auto max-w-5xl px-4 pb-8 pt-20 text-center sm:px-6 lg:px-8">
+        <h1 class="text-5xl font-light tracking-normal text-white sm:text-6xl" data-i18n="shoppingGuides">Shopping Guides</h1>
+        <div class="mx-auto mt-7 h-1 w-8 bg-white"></div>
+        <p class="mx-auto mt-5 max-w-3xl text-sm font-semibold leading-7 text-white/90" data-i18n="guidesIntro">
+          The Shopping Guides section helps buyers navigate Chinese marketplaces,
+          UUfinds spreadsheet finds, QC photos, link converters, and agent workflows with more confidence.
+          These topics are rewritten and organized for UU Find Hub.
+        </p>
+      </section>
+
+      <section class="mx-auto max-w-5xl px-4 pb-12 sm:px-6 lg:px-8">
+        <div class="grid gap-x-9 gap-y-12 md:grid-cols-2">
+          {guides.map((guide) => (
+            <article class="rounded-[1.6rem] bg-[#59527f]/95 px-9 py-8 text-white shadow-lg">
+              <h2 class="text-center text-xl font-semibold leading-7" data-i18n-auto>{guide.title}</h2>
+              <p class="mt-7 text-sm font-semibold leading-7 text-white/86" data-i18n-auto>{guide.excerpt}</p>
+              <a
+                href="https://streetstyle.maisonlooks.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-8 inline-block text-sm font-black text-white/90 hover:text-sky-200"
+                data-i18n="continueReading"
+              >
+                Continue Reading
+              </a>
+            </article>
+          ))}
+        </div>
+
+        <nav
+          class="mt-16 flex flex-wrap justify-end gap-2 text-xs text-white/70"
+          aria-label="Guide pagination"
+          data-i18n-attrs="aria-label"
+          data-i18n-aria-label="guidePagination"
+        >
+          {currentPage > 1 && <a class="px-2 py-1 hover:text-white" href={previousHref}>‹ <span data-i18n="previous">Previous</span></a>}
+          {Array.from({ length: pageCount }).map((_, index) => {
+            const page = index + 1;
+            const active = page === currentPage;
+            return (
+              <a
+                class:list={[
+                  "border border-white/30 px-2 py-1 hover:bg-white/10",
+                  active && "bg-green-500 font-bold text-white",
+                ]}
+                href={pageHref(page)}
+              >
+                {page}
+              </a>
+            );
+          })}
+          {currentPage < pageCount && <a class="px-2 py-1 hover:text-white" href={nextHref}><span data-i18n="next">Next</span> ›</a>}
+        </nav>
+      </section>
+
+      <section id="faq" class="mx-auto max-w-5xl px-4 pb-16 sm:px-6 lg:px-8">
+        <div class="rounded-[1.6rem] bg-[#59527f]/75 px-8 py-7">
+          <h2 class="text-2xl font-semibold" data-i18n="faq">FAQ</h2>
+          <div class="mt-5 grid gap-4 md:grid-cols-3">
+            <p class="text-sm font-semibold leading-6 text-white/80" data-i18n="faqOne">Use guides as a checklist before approving warehouse photos.</p>
+            <p class="text-sm font-semibold leading-6 text-white/80" data-i18n="faqTwo">Spreadsheet finds help with discovery, but final checks are still your responsibility.</p>
+            <p class="text-sm font-semibold leading-6 text-white/80" data-i18n="faqThree">When in doubt, request clearer photos before shipping internationally.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,105 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import HeroPlane from "@/components/HeroPlane.astro";
+import ProductCard from "@/components/ProductCard.astro";
+import { categories, products } from "@/data/products";
+
+const categoryGroups = categories.map((category) => ({
+  category,
+  products: products.filter((product) => product.category === category),
+}));
+
+const whyUsePoints = [
+  {
+    title: "QC photos before you commit",
+    text: "Preview warehouse-style product shots so you can compare shape, stitching, tags, and finish before spending time on a risky order.",
+  },
+  {
+    title: "Spot lighting and color issues",
+    text: "Use multiple images to judge whether a color difference is the product itself or just harsh lighting, shadows, or camera exposure.",
+  },
+  {
+    title: "Check logos and small details",
+    text: "Look closer at badges, prints, embroidery, hardware, and labels when those details decide whether a find is worth adding to your haul.",
+  },
+  {
+    title: "Read signals from real buyers",
+    text: "Comments and shared observations help you catch recurring issues faster than judging a listing from a single seller photo.",
+  },
+  {
+    title: "Move through finds faster",
+    text: "Category browsing and curated picks reduce the time spent jumping between Taobao, Weidian, 1688, and agent search pages.",
+  },
+  {
+    title: "Buy with clearer expectations",
+    text: "The goal is not blind hype. It is a cleaner way to compare options, reject weak listings, and make cross-border orders with fewer surprises.",
+  },
+];
+
+---
+
+<BaseLayout
+  title="UUfinds Spreadsheet | Curated Finds, QC Photos & Shopping Links"
+  description="Browse the UUfinds Spreadsheet hub for curated finds, QC photo checks, category pages, and shopping links for Maison Looks."
+>
+  <Header />
+  <main class="bg-[#06152f] text-white" data-i18n-title="titleHome" data-i18n-description="descriptionHome">
+    <HeroPlane />
+
+    <section id="categories" class="mx-auto max-w-5xl px-4 pb-6 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-2xl font-black text-white" data-i18n="productCategory">Product category</h2>
+        <p class="mt-2 text-sm text-white/68" data-i18n="browseButtons">Browse using the buttons below.</p>
+      </div>
+      <div class="mt-5 flex flex-wrap justify-center gap-3">
+        {categories.map((category) => (
+          <a href={`#${category.toLowerCase()}`} class="rounded-lg border border-white/10 bg-white/8 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:border-sky-300/70 hover:bg-white/12" data-i18n-auto>
+            {category}
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section id="finds" class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+      <div class="grid gap-6 md:grid-cols-2">
+      {categoryGroups.map((group) => (
+        <section id={group.category.toLowerCase()} class="scroll-mt-24 rounded-2xl bg-white/8 p-4 shadow-sm ring-1 ring-white/10">
+          <div class="mb-4 flex items-center justify-between gap-4">
+            <h3 class="text-lg font-black text-white" data-i18n-auto>{group.category}</h3>
+            <a href={`/categories/${group.category.toLowerCase()}`} class="text-sm font-semibold text-white/68 hover:text-white" data-i18n="seeMore">See more</a>
+          </div>
+          <div class="grid grid-cols-3 gap-3">
+            {group.products.slice(0, 6).map((product) => <ProductCard product={product} />)}
+          </div>
+        </section>
+      ))}
+      </div>
+    </section>
+
+    <section id="why-use-uufinds" class="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+      <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-sky-300" data-i18n="buyerChecks">Buyer checks</p>
+          <h2 class="mt-3 text-3xl font-black text-white" data-i18n="whyUseTitle">Why use the UUfinds Spreadsheet</h2>
+          <p class="mt-4 text-sm leading-6 text-white/70" data-i18n="whyUseBody">
+            The UUfinds Spreadsheet workflow is built for buyers who want more than a seller thumbnail.
+            It helps you review QC-style images, compare visible details, and narrow down products
+            before sending them to an agent.
+          </p>
+        </div>
+        <div class="grid gap-3 sm:grid-cols-2">
+          {whyUsePoints.map((point, index) => (
+            <article class="rounded-lg border border-white/10 bg-white/8 p-4 shadow-sm">
+              <h3 class="text-sm font-black text-white" data-i18n={`point${index + 1}Title`}>{point.title}</h3>
+              <p class="mt-2 text-sm leading-6 text-white/70" data-i18n={`point${index + 1}Text`}>{point.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="bg-[#06152f] px-4 py-5 text-center text-xs text-white/50" data-i18n="footer">
+    UU Find Hub / product index for Maison Looks.
+  </footer>
+</BaseLayout>

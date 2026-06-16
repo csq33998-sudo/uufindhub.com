@@ -1,0 +1,210 @@
+---
+import { languages } from "@/i18n/languages";
+import { translations } from "@/i18n/ui";
+import "@/styles/global.css";
+
+type Props = {
+  title: string;
+  description: string;
+};
+
+const { title, description } = Astro.props;
+const i18nConfig = JSON.stringify({ languages, translations });
+const siteOrigin = Astro.site ?? Astro.url.origin;
+const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).toString();
+const imageUrl = new URL("/images/hero-shipping.png", siteOrigin).toString();
+const iconUrl = "/favicon.png";
+const structuredData = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "UUfinds Spreadsheet",
+  alternateName: "UU Find Hub",
+  url: new URL("/", siteOrigin).toString(),
+  description,
+});
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/png" href={iconUrl} />
+    <link rel="apple-touch-icon" href="/images/uufinds-spreadsheet-icon.png" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <title>{title}</title>
+    <script id="i18n-config" type="application/json" set:html={i18nConfig}></script>
+    <script type="application/ld+json" set:html={structuredData}></script>
+  </head>
+  <body class="bg-[#06152f] font-sans text-white antialiased">
+    <slot />
+    <script is:inline>
+      (() => {
+        const configElement = document.getElementById("i18n-config");
+        if (!configElement) return;
+
+        const { languages, translations } = JSON.parse(configElement.textContent || "{}");
+        const storageKey = "uufindhub-language";
+        const fallbackCode = "en";
+        const languageCodes = new Set(languages.map((language) => language.code));
+
+        const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+        function getStoredLanguage() {
+          const stored = localStorage.getItem(storageKey);
+          if (stored && languageCodes.has(stored)) return stored;
+
+          const browserCode = (navigator.language || fallbackCode).slice(0, 2).toLowerCase();
+          return languageCodes.has(browserCode) ? browserCode : fallbackCode;
+        }
+
+        function format(value, variables = {}) {
+          return String(value).replace(/\{(\w+)\}/g, (_, key) => variables[key] ?? "");
+        }
+
+        function translateTerms(value, code) {
+          if (code === fallbackCode || !value) return value;
+          const terms = translations[code]?.terms || {};
+          return Object.entries(terms)
+            .sort((a, b) => b[0].length - a[0].length)
+            .reduce((text, [source, target]) => {
+              if (!source || source === target) return text;
+              return text.replace(new RegExp(escapeRegExp(source), "g"), target);
+            }, value);
+        }
+
+        function variablesFor(element, code) {
+          const raw = element.getAttribute("data-i18n-values");
+          if (!raw) return {};
+          try {
+            const values = JSON.parse(raw);
+            if (values.category) values.category = translateTerms(values.category, code);
+            return values;
+          } catch {
+            return {};
+          }
+        }
+
+        function setElementText(element, code) {
+          const key = element.getAttribute("data-i18n");
+          const source = translations[code]?.ui?.[key] || translations[fallbackCode]?.ui?.[key];
+          if (source) {
+            element.textContent = format(translateTerms(source, code), variablesFor(element, code));
+            return;
+          }
+
+          if (element.hasAttribute("data-i18n-auto")) {
+            if (!element.dataset.i18nSource) {
+              element.dataset.i18nSource = element.textContent || "";
+            }
+            element.textContent = translateTerms(element.dataset.i18nSource, code);
+          }
+        }
+
+        function setElementAttributes(element, code) {
+          const attrs = (element.getAttribute("data-i18n-attrs") || "")
+            .split(",")
+            .map((attr) => attr.trim())
+            .filter(Boolean);
+
+          for (const attr of attrs) {
+            const key = element.getAttribute(`data-i18n-${attr}`);
+            const source = translations[code]?.ui?.[key] || translations[fallbackCode]?.ui?.[key];
+            if (source) {
+              element.setAttribute(attr, format(translateTerms(source, code), variablesFor(element, code)));
+            }
+          }
+
+          if (element.hasAttribute("data-i18n-auto-attrs")) {
+            for (const attr of (element.getAttribute("data-i18n-auto-attrs") || "").split(",")) {
+              const name = attr.trim();
+              if (!name) continue;
+              const sourceKey = `i18nSource${name.replace(/[^a-z0-9]/gi, "")}`;
+              if (!element.dataset[sourceKey]) {
+                element.dataset[sourceKey] = element.getAttribute(name) || "";
+              }
+              element.setAttribute(name, translateTerms(element.dataset[sourceKey], code));
+            }
+          }
+        }
+
+        function applyLanguage(code) {
+          const selectedCode = languageCodes.has(code) ? code : fallbackCode;
+          const selectedLanguage = languages.find((language) => language.code === selectedCode);
+          localStorage.setItem(storageKey, selectedCode);
+          document.documentElement.lang = selectedCode;
+          document.documentElement.dir = selectedLanguage?.dir || "ltr";
+
+          document.querySelectorAll("[data-i18n], [data-i18n-auto]").forEach((element) => {
+            setElementText(element, selectedCode);
+          });
+          document.querySelectorAll("[data-i18n-attrs], [data-i18n-auto-attrs]").forEach((element) => {
+            setElementAttributes(element, selectedCode);
+          });
+
+          document.querySelectorAll("[data-language-label]").forEach((element) => {
+            element.textContent = selectedLanguage?.label || "English";
+          });
+          document.querySelectorAll("[data-language-option]").forEach((element) => {
+            const active = element.getAttribute("data-language-option") === selectedCode;
+            element.setAttribute("aria-selected", String(active));
+            element.classList.toggle("bg-sky-400/20", active);
+            element.classList.toggle("text-sky-100", active);
+          });
+
+          const pageMeta = document.querySelector("[data-i18n-title], [data-i18n-description], [data-i18n-page], [data-i18n-category]");
+          const titleKey = pageMeta?.getAttribute("data-i18n-title");
+          const descriptionKey = pageMeta?.getAttribute("data-i18n-description");
+          const page = pageMeta?.getAttribute("data-i18n-page");
+          const category = pageMeta?.getAttribute("data-i18n-category");
+          const values = {
+            page,
+            category: category ? translateTerms(category, selectedCode) : "",
+          };
+
+          if (titleKey) {
+            const title = translations[selectedCode]?.ui?.[titleKey] || translations[fallbackCode]?.ui?.[titleKey];
+            if (title) {
+              const content = format(translateTerms(title, selectedCode), values);
+              document.title = content;
+              document.querySelector('meta[property="og:title"]')?.setAttribute("content", content);
+              document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", content);
+            }
+          }
+
+          if (descriptionKey) {
+            const description = translations[selectedCode]?.ui?.[descriptionKey] || translations[fallbackCode]?.ui?.[descriptionKey];
+            if (description) {
+              const content = format(translateTerms(description, selectedCode), values);
+              document.querySelector('meta[name="description"]')?.setAttribute("content", content);
+              document.querySelector('meta[property="og:description"]')?.setAttribute("content", content);
+              document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", content);
+            }
+          }
+        }
+
+        document.addEventListener("click", (event) => {
+          const option = event.target.closest("[data-language-option]");
+          if (!option) return;
+          const menu = option.closest("details");
+          applyLanguage(option.getAttribute("data-language-option"));
+          menu?.removeAttribute("open");
+          option.blur();
+        });
+
+        window.uufindhubSetLanguage = applyLanguage;
+        applyLanguage(getStoredLanguage());
+      })();
+    </script>
+  </body>
+</html>

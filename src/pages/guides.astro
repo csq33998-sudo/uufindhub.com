@@ -1,0 +1,9 @@
+---
+import GuidesListing from "@/components/GuidesListing.astro";
+import { getGuidesPage } from "@/data/guides";
+
+const currentPage = 1;
+const guides = getGuidesPage(currentPage);
+---
+
+<GuidesListing currentPage={currentPage} guides={guides} />
