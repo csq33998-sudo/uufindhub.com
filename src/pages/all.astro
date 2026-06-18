@@ -7,7 +7,7 @@ import { products } from "@/data/products";
 
 <BaseLayout
   title="All UUfinds Spreadsheet Finds | UU Find Hub"
-  description="Browse every curated UUfinds Spreadsheet find, including product images, QC-style checks, category shortcuts, and Maison Looks shopping links."
+  description="Browse every curated UUfinds Spreadsheet find, including product images, QC-style checks, category shortcuts, and external product links."
 >
   <Header />
   <main class="bg-[#06152f] text-white" data-i18n-title="titleAll" data-i18n-description="descriptionAll">
@@ -15,7 +15,7 @@ import { products } from "@/data/products";
       <div class="border-b border-white/10 pb-4">
         <p class="text-sm font-semibold uppercase tracking-wide text-sky-300" data-i18n="allFinds">All finds</p>
         <h1 class="mt-2 text-3xl font-black text-white" data-i18n="allProducts">All UUfinds Spreadsheet Finds</h1>
-        <p class="mt-2 text-sm text-white/68"><span>{products.length}</span> <span data-i18n="allCountSuffix">curated UUfinds Spreadsheet finds linked to Maison Looks.</span></p>
+        <p class="mt-2 text-sm text-white/68"><span>{products.length}</span> <span data-i18n="allCountSuffix">curated UUfinds Spreadsheet rows with external product links.</span></p>
       </div>
 
       <div class="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7">

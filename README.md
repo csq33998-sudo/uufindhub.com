@@ -1,6 +1,6 @@
 # UU Find Hub
 
-Astro static guide and product curation site built to promote Maison Looks street style traffic.
+Astro static guide and product curation site for UUfinds Spreadsheet, QC photo research, source links, and agent-ready shopping workflows.
 
 ## Stack
 

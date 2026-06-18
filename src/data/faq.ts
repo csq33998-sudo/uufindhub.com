@@ -3,6 +3,8 @@ export const quickTopics = [
   { label: "QC photos", href: "/faq/qc-photos/", section: "qc-photos" },
   { label: "Spreadsheets", href: "/faq/spreadsheets/", section: "spreadsheets" },
   { label: "Links and agents", href: "/faq/links-and-agents/", section: "links-and-agents" },
+  { label: "Agent platforms", href: "/faq/agent-platforms/", section: "agent-platforms" },
+  { label: "Bag QC", href: "/faq/bag-qc/", section: "bag-qc" },
   { label: "Buying safety", href: "/faq/buying-safety/", section: "buying-safety" },
   { label: "After ordering", href: "/faq/after-ordering/", section: "after-ordering" },
 ];
@@ -14,12 +16,12 @@ export const faqGroups = [
       {
         question: "What is the UUfinds Spreadsheet?",
         answer:
-          "The UUfinds Spreadsheet is a curated product index for buyers who want to browse finds, review categories, compare QC-style product images, and continue to Maison Looks shopping links.",
+          "The UUfinds Spreadsheet is a curated UU Finds product index for buyers who want to browse finds, review categories, compare spreadsheet QC product images, and prepare source links for buying agent or external checkout research.",
       },
       {
         question: "Is this a shop or a product directory?",
         answer:
-          "It is a directory and shopping helper. Product cards send you to the external Maison Looks experience, where final product details and ordering steps should be checked before you buy.",
+          "It is a directory and shopping helper. Product cards send you to external product pages, where final details, stock, price, and ordering steps should be checked before you buy.",
       },
       {
         question: "How should I use the site?",
@@ -64,7 +66,7 @@ export const faqGroups = [
       {
         question: "Why use a spreadsheet?",
         answer:
-          "A spreadsheet makes it easier to organize finds, compare categories, save product links, and keep notes while you build a haul or shortlist.",
+          "A spreadsheet makes it easier to organize UU Finds, compare categories, save product links, and keep spreadsheet QC notes while you build a haul or shortlist.",
       },
       {
         question: "What should I track in my spreadsheet?",
@@ -80,6 +82,11 @@ export const faqGroups = [
         question: "Can a spreadsheet replace final QC?",
         answer:
           "No. A spreadsheet helps organize decisions, but final approval should still be based on current product details, QC photos, and agent updates.",
+      },
+      {
+        question: "Is UUfinds QC the same as agent QC?",
+        answer:
+          "No. UUfinds QC helps you shortlist and compare spreadsheet rows before ordering, while agent QC usually happens after the item reaches a warehouse. Use both: spreadsheet QC for research and agent QC for the final warehouse decision.",
       },
     ],
   },
@@ -104,7 +111,67 @@ export const faqGroups = [
       {
         question: "What should I send to my agent?",
         answer:
-          "Send the clean product URL, selected size, color, notes, and any reference images. Clear instructions reduce the chance of ordering the wrong variant.",
+          "Send the clean product URL, selected size, color, notes, and any reference images to your buying agent. Clear instructions reduce the chance of ordering the wrong variant.",
+      },
+    ],
+  },
+  {
+    title: "Agent platforms",
+    items: [
+      {
+        question: "Which platforms are product sources and which ones are agents?",
+        answer:
+          "Taobao, Tmall, Weidian, 1688, and Yupoo are product-source platforms. Taobao launched in 2003 under Alibaba, Tmall began as Taobao Mall in 2008 for brand and business-to-consumer retail, and 1688 is part of Alibaba's domestic commerce ecosystem. Superbuy, Sugargoo, Kakobuy, CNFans, AllChinaBuy, Mulebuy, and similar services are buying agents that can purchase from Chinese sellers, receive goods at a warehouse, photograph them, and forward parcels internationally.",
+      },
+      {
+        question: "What facts should I compare before choosing a buying agent?",
+        answer:
+          "Compare the published service fee, free warehouse storage period, QC-photo policy, return window, supported source links, international shipping lines, insurance options, payment methods, and parcel restrictions. These are measurable platform rules, not opinions, and they can change, so check the agent help center before paying.",
+      },
+      {
+        question: "Why are Taobao, Weidian, 1688, and Yupoo treated differently?",
+        answer:
+          "Taobao is usually treated as consumer marketplace shopping, Tmall as business-to-consumer retail, Weidian as independent storefront shopping, 1688 as domestic wholesale sourcing, and Yupoo as a photo-album catalog. Agents may parse a Taobao or Weidian URL automatically, while Yupoo albums often need a manual item note, seller contact, size, color, and reference image.",
+      },
+      {
+        question: "What costs are usually missing from a spreadsheet price?",
+        answer:
+          "A spreadsheet row usually shows the item price only. The real landed cost can include domestic shipping inside China, agent service fees, paid QC or add-on photos, rehearsal packaging, international shipping by weight or volumetric weight, insurance, payment processing, customs duty, and local tax.",
+      },
+      {
+        question: "How do I fact-check an agent before using it?",
+        answer:
+          "Open the agent's official fee page, shipping calculator, warehouse policy, prohibited-items list, and refund policy. Record the date, currency, free-storage days, first-weight and added-weight rates for your country, and whether branded goods or batteries are restricted on the shipping line you plan to use.",
+      },
+      {
+        question: "Which agent is best for UUfinds Spreadsheet links?",
+        answer:
+          "There is no single best agent for every haul. A light clothing parcel, a shoe-heavy parcel, and an electronics parcel can price differently because agents use different shipping lines, volume calculations, restrictions, and add-on fees. Test the same product link and estimated weight in two or three agent calculators before choosing.",
+      },
+      {
+        question: "How should I compare buying agents for spreadsheet QC?",
+        answer:
+          "Compare buying agents with the same UUfinds Spreadsheet row, estimated weight, destination country, QC-photo needs, storage time, return window, and restricted-item category. This makes the spreadsheet QC comparison more practical than judging agents from one advertised shipping price.",
+      },
+    ],
+  },
+  {
+    title: "Bag QC",
+    items: [
+      {
+        question: "What should I check first in bag QC photos?",
+        answer:
+          "Bag QC should start with shape, structure, strap alignment, stitching, zipper line, logo placement, hardware color, inner labels, and edge finish. One front photo is not enough when a bag has corners, handles, clasps, or interior details.",
+      },
+      {
+        question: "Why do bag finds need extra spreadsheet QC notes?",
+        answer:
+          "Bag finds often depend on small details that are easy to miss in a product thumbnail. Add notes for material texture, hardware close-ups, strap length, inside photos, and seller consistency before moving a UU Finds bag row to a buying agent.",
+      },
+      {
+        question: "Can bag QC photos prove authenticity?",
+        answer:
+          "No. Bag QC photos can help you compare visible quality, construction, and defects, but they should not be treated as an authenticity guarantee. Use them as risk checks before international shipping.",
       },
     ],
   },
@@ -114,12 +181,12 @@ export const faqGroups = [
       {
         question: "How do I reduce risk before buying?",
         answer:
-          "Compare multiple finds, read buyer signals, check seller consistency, review QC images carefully, and avoid rushing into listings with weak photos or unclear sizing.",
+          "Compare multiple finds, read buyer signals, check seller consistency, review QC images carefully, and avoid rushing into listings with weak photos or unclear sizing. For agent orders, also verify the service fee, storage period, refund process, and shipping restrictions on the platform's current help pages.",
       },
       {
         question: "Are prices final?",
         answer:
-          "Prices can change and may not include domestic shipping, international shipping, service fees, currency changes, or customs charges. Use prices as estimates until checkout is confirmed.",
+          "No. Prices can change and may not include domestic shipping, international shipping, service fees, paid add-ons, currency spread, payment processing, insurance, customs charges, or tax. Treat every spreadsheet price as a starting estimate until the agent checkout and parcel quote are confirmed.",
       },
       {
         question: "How should I choose the right size?",

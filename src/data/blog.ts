@@ -20,7 +20,7 @@ export const blogCategories = [
 
 export const blogPosts: BlogPost[] = [
   {
-    title: "How to Turn a UUfinds Spreadsheet Row Into a Maison Looks Shortlist",
+    title: "How to Turn a UUfinds Spreadsheet Row Into an Agent-Ready Shortlist",
     category: "Buying Guides",
     date: "2/10/2026",
     readTime: "4 min read",
@@ -28,7 +28,7 @@ export const blogPosts: BlogPost[] = [
     excerpt:
       "A revised step-by-step buying guide for turning a row into a shortlist item, with more emphasis on intent, outfit use, and decision notes than generic spreadsheet cleanup.",
     body:
-      "The best spreadsheet rows do not automatically become purchases. Treat each row like a candidate: decide why it belongs in your haul, compare it against alternatives, and only then move it into your Maison Looks shortlist. This keeps the process closer to a buying journal than a raw link dump.",
+      "The best spreadsheet rows do not automatically become purchases. Treat each row like a candidate: decide why it belongs in your haul, compare it against alternatives, and only then move it into an agent-ready shortlist. This keeps the process closer to a buying journal than a raw link dump.",
     steps: [
       "Write one reason the item belongs in your haul before opening more links.",
       "Compare it with one similar product already saved in your shortlist.",

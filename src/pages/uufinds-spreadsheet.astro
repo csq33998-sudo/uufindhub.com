@@ -1,0 +1,251 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import ProductCard from "@/components/ProductCard.astro";
+import { categories, products } from "@/data/products";
+
+const featuredProducts = products.filter((product) => product.featured).slice(0, 6);
+
+const sourcePlatforms = [
+  {
+    name: "Taobao",
+    role: "Consumer marketplace",
+    fact: "Alibaba Group lists Taobao as one of its China commerce retail businesses; Taobao launched in 2003.",
+    use: "Good for broad product discovery, retail listings, seller photos, and price comparison before an agent order.",
+  },
+  {
+    name: "Tmall",
+    role: "Brand and B2C retail",
+    fact: "Tmall began as Taobao Mall in 2008 and is part of Alibaba's China commerce retail ecosystem.",
+    use: "Useful when the buyer wants a more formal retail storefront signal rather than a small independent seller page.",
+  },
+  {
+    name: "1688",
+    role: "Domestic wholesale sourcing",
+    fact: "Alibaba Group lists 1688 within its China commerce wholesale business.",
+    use: "Useful for low unit prices, batch-style sourcing, and wholesale listings, but sizing, MOQ, and domestic shipping need extra checks.",
+  },
+  {
+    name: "Weidian",
+    role: "Independent storefronts",
+    fact: "Weidian links are commonly submitted to agents as seller-store product pages rather than warehouse-ready international checkout pages.",
+    use: "Good for seller-specific finds, but buyers should compare seller history, product photos, and QC examples carefully.",
+  },
+  {
+    name: "Yupoo",
+    role: "Photo-album catalog",
+    fact: "Yupoo pages are usually album-style catalogs; many agent orders need manual notes instead of a clean one-click product parse.",
+    use: "Use it as a reference source: send album URL, item name, size, color, seller contact, and screenshots to the agent.",
+  },
+];
+
+const agentChecks = [
+  "Published service fee or handling fee",
+  "Free warehouse storage period and paid storage rules",
+  "Included QC photos versus paid extra-photo options",
+  "Return, exchange, and refund window after warehouse arrival",
+  "Shipping calculator, first-weight rate, and added-weight rate",
+  "Volumetric weight formula for shoes, coats, and boxed items",
+  "Mail restrictions for branded goods, batteries, liquids, and electronics",
+  "Insurance, rehearsal packaging, parcel removal, and corner-protection fees",
+];
+
+const agentPlatforms = [
+  {
+    name: "Superbuy",
+    note: "Its official help center exposes separate areas for service fees, storage, inspection information, shipping calculator, mail restrictions, and after-sales support.",
+  },
+  {
+    name: "Sugargoo",
+    note: "Compare the current fee page, warehouse rules, QC-photo policy, and available shipping lines before using it for a haul.",
+  },
+  {
+    name: "Kakobuy",
+    note: "Check whether the product URL parses correctly, then verify add-on QC, storage, return, and international shipping rules.",
+  },
+  {
+    name: "CNFans",
+    note: "Use the same fact-check process: fees, warehouse time, parcel calculator, restricted goods, payment methods, and support terms.",
+  },
+];
+
+const workflow = [
+  "Start with category intent: sneakers, outerwear, hoodies, pants, accessories, or electronics.",
+  "Open several UUfinds Spreadsheet rows instead of trusting one thumbnail or one low price.",
+  "Check source platform context: Taobao, Tmall, Weidian, 1688, Yupoo, or the linked external shop.",
+  "Estimate landed cost with item price, China domestic shipping, agent fee, add-ons, international shipping, insurance, and tax.",
+  "Submit the clean link and exact variant notes to the agent, then make the final decision from warehouse QC photos.",
+];
+---
+
+<BaseLayout
+  title="UUfinds Spreadsheet QC | UU Finds, Buying Agents & Source Links"
+  description="Use the UUfinds Spreadsheet QC hub to compare UU Finds, QC photos, source platforms, buying agent fees, shipping rules, and landed-cost risks before buying."
+>
+  <Header />
+  <main class="bg-[#06152f] text-white">
+    <section class="relative overflow-hidden border-b border-white/10 bg-[#08204a]">
+      <img
+        src="/images/hero-shipping.png"
+        alt=""
+        class="absolute inset-0 hidden h-full w-full object-cover object-[center_42%] opacity-50 md:block"
+        loading="eager"
+        decoding="async"
+        aria-hidden="true"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-[#06152f] via-[#06152f]/86 to-[#06152f]/34" aria-hidden="true"></div>
+      <div class="relative mx-auto grid min-h-[500px] max-w-6xl items-center gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[0.92fr_1.08fr] lg:px-8">
+        <div class="max-w-2xl">
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-sky-300">UU Finds spreadsheet landing page</p>
+          <h1 class="mt-3 text-4xl font-black leading-tight text-white sm:text-5xl lg:text-6xl">UUfinds Spreadsheet</h1>
+          <p class="mt-5 max-w-xl text-base leading-7 text-white/74">
+            A focused UUfinds Spreadsheet QC hub for browsing UU Finds, checking source-platform context, comparing buying agents,
+            and estimating the real cost before a product moves from spreadsheet row to warehouse QC.
+          </p>
+          <div class="mt-7 flex flex-wrap gap-3">
+            <a href="/all/" class="inline-flex min-h-11 items-center rounded-md bg-sky-400 px-5 text-sm font-black text-slate-950 transition hover:bg-sky-300">Browse all finds</a>
+            <a href="#agent-research" class="inline-flex min-h-11 items-center rounded-md border border-white/15 bg-white/8 px-5 text-sm font-bold text-white transition hover:border-sky-300/60 hover:bg-white/12">Compare agents</a>
+          </div>
+        </div>
+        <div class="grid gap-3 sm:grid-cols-2">
+          <article class="rounded-lg border border-white/10 bg-white/10 p-4 shadow-sm">
+            <p class="text-3xl font-black text-white">{products.length}</p>
+            <p class="mt-2 text-sm leading-6 text-white/68">curated product rows currently indexed on UU Find Hub.</p>
+          </article>
+          <article class="rounded-lg border border-white/10 bg-white/10 p-4 shadow-sm">
+            <p class="text-3xl font-black text-white">{categories.length}</p>
+            <p class="mt-2 text-sm leading-6 text-white/68">shopping categories for faster spreadsheet filtering.</p>
+          </article>
+          <article class="rounded-lg border border-white/10 bg-white/10 p-4 shadow-sm sm:col-span-2">
+            <p class="text-sm font-black uppercase tracking-wide text-sky-200">Main research rule</p>
+            <p class="mt-2 text-sm leading-6 text-white/72">
+              Treat every spreadsheet price as an item-price estimate until the agent confirms domestic shipping,
+              service fees, parcel weight, shipping restrictions, and final warehouse photos.
+            </p>
+          </article>
+          <article class="rounded-lg border border-white/10 bg-white/10 p-4 shadow-sm sm:col-span-2">
+            <p class="text-sm font-black uppercase tracking-wide text-sky-200">Research notes</p>
+            <p class="mt-2 text-sm leading-6 text-white/72">
+              Sources checked: Alibaba Group business pages and Superbuy Help Center. Last checked: June 18, 2026.
+              Agent fees and shipping rules change often, so this page records what to verify rather than freezing unconfirmed prices.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+      <div class="grid gap-8 lg:grid-cols-[0.74fr_1.26fr]">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-sky-300">Source platform facts</p>
+          <h2 class="mt-3 text-3xl font-black text-white">Where UUfinds Spreadsheet links usually come from</h2>
+          <p class="mt-4 text-sm leading-7 text-white/68">
+            A good UUfinds Spreadsheet page should not treat every Chinese shopping link the same. Taobao, Tmall,
+            1688, Weidian, and Yupoo create different ordering risks, so the row needs context before it goes to an agent.
+          </p>
+        </div>
+        <div class="grid gap-4 md:grid-cols-2">
+          {sourcePlatforms.map((platform) => (
+            <article class="rounded-lg border border-white/10 bg-white/8 p-5 shadow-sm">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h3 class="text-lg font-black text-white">{platform.name}</h3>
+                  <p class="mt-1 text-xs font-bold uppercase tracking-wide text-sky-200">{platform.role}</p>
+                </div>
+              </div>
+              <p class="mt-4 text-sm leading-6 text-white/72">{platform.fact}</p>
+              <p class="mt-3 text-sm leading-6 text-white/58">{platform.use}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="agent-research" class="border-y border-white/10 bg-[#08204a]">
+      <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_1fr] lg:px-8">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-sky-300">Agent platform research</p>
+          <h2 class="mt-3 text-3xl font-black text-white">What to verify before choosing a buying agent for UUfinds Spreadsheet QC</h2>
+          <p class="mt-4 text-sm leading-7 text-white/70">
+            Superbuy's public help center is a useful model because it separates service fees, storage, inspection,
+            shipping calculator, mail restrictions, and after-sales information. Use the same buying agent checklist when comparing
+            Sugargoo, Kakobuy, CNFans, AllChinaBuy, Mulebuy, or any other agent.
+          </p>
+          <div class="mt-5 grid gap-3 sm:grid-cols-2">
+            {agentPlatforms.map((agent) => (
+              <article class="rounded-lg border border-white/10 bg-white/8 p-4">
+                <h3 class="font-black text-white">{agent.name}</h3>
+                <p class="mt-2 text-sm leading-6 text-white/66">{agent.note}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+        <div class="rounded-lg border border-white/10 bg-white/8 p-5">
+          <h3 class="text-lg font-black text-white">Agent facts to record</h3>
+          <div class="mt-5 grid gap-3">
+            {agentChecks.map((check, index) => (
+              <div class="flex gap-3 rounded-md border border-white/10 bg-[#06152f]/72 p-3">
+                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-sky-300/15 text-xs font-black text-sky-200">
+                  {index + 1}
+                </span>
+                <p class="text-sm leading-6 text-white/74">{check}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+      <div class="grid gap-8 lg:grid-cols-[1fr_1fr]">
+        <div class="rounded-lg border border-white/10 bg-white/8 p-5">
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-sky-300">Buying workflow</p>
+          <h2 class="mt-3 text-2xl font-black text-white">How to use the UUfinds Spreadsheet for spreadsheet QC</h2>
+          <div class="mt-5 grid gap-3">
+            {workflow.map((step, index) => (
+              <div class="flex gap-3">
+                <span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-sky-300/35 text-xs font-black text-sky-200">
+                  {index + 1}
+                </span>
+                <p class="text-sm leading-6 text-white/72">{step}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-sky-300">Categories</p>
+          <h2 class="mt-3 text-2xl font-black text-white">Browse the spreadsheet by intent</h2>
+          <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {categories.map((category) => (
+              <a href={`/categories/${category.toLowerCase()}/`} class="rounded-lg border border-white/10 bg-white/8 px-4 py-4 text-sm font-black text-white transition hover:border-sky-300/60 hover:bg-white/12">
+                {category}
+              </a>
+            ))}
+          </div>
+          <div class="mt-6 grid grid-cols-3 gap-3">
+            {featuredProducts.map((product) => <ProductCard product={product} />)}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-t border-white/10 bg-[#08204a]">
+      <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+        <div class="grid gap-5 md:grid-cols-3">
+          <a href="/faq/agent-platforms/" class="rounded-lg border border-white/10 bg-white/8 p-5 transition hover:border-sky-300/60 hover:bg-white/12">
+            <h2 class="text-lg font-black text-white">Agent platform FAQ</h2>
+            <p class="mt-2 text-sm leading-6 text-white/66">Read the agent-specific FAQ for platform roles, hidden costs, and fact-checking rules.</p>
+          </a>
+          <a href="/guides/" class="rounded-lg border border-white/10 bg-white/8 p-5 transition hover:border-sky-300/60 hover:bg-white/12">
+            <h2 class="text-lg font-black text-white">Shopping guides</h2>
+            <p class="mt-2 text-sm leading-6 text-white/66">Use buying guides for QC checks, link conversion, spreadsheets, and safer shortlist decisions.</p>
+          </a>
+          <a href="/faq/" class="rounded-lg border border-white/10 bg-white/8 p-5 transition hover:border-sky-300/60 hover:bg-white/12">
+            <h2 class="text-lg font-black text-white">Spreadsheet FAQ</h2>
+            <p class="mt-2 text-sm leading-6 text-white/66">Review common questions before moving a product from row research to agent checkout.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

@@ -18,7 +18,7 @@ const categoryValues = JSON.stringify({ category });
 
 <BaseLayout
   title={`${category} UUfinds Spreadsheet Finds | UU Find Hub`}
-  description={`Curated ${category.toLowerCase()} UUfinds Spreadsheet finds, QC-style previews, and shopping shortcuts for Maison Looks.`}
+  description={`Curated ${category.toLowerCase()} UUfinds Spreadsheet finds, QC-style previews, and source-platform shopping shortcuts.`}
 >
   <Header />
   <main
@@ -30,7 +30,7 @@ const categoryValues = JSON.stringify({ category });
     <a href="/" class="text-sm font-semibold text-white/68 hover:text-white" data-i18n="backToAll">Back to all finds</a>
     <div class="mt-6 border-b border-white/10 pb-3">
       <h1 class="text-3xl font-black text-white" data-i18n-auto>{category} UUfinds Spreadsheet Finds</h1>
-      <p class="mt-2 text-sm text-white/68"><span>{categoryProducts.length}</span> <span data-i18n="categoryCountSuffix" data-i18n-values={categoryValues}>UUfinds Spreadsheet finds linked to Maison Looks.</span></p>
+      <p class="mt-2 text-sm text-white/68"><span>{categoryProducts.length}</span> <span data-i18n="categoryCountSuffix" data-i18n-values={categoryValues}>UUfinds Spreadsheet rows with external product links.</span></p>
     </div>
     <div class="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7">
         {categoryProducts.map((product) => <ProductCard product={product} />)}
